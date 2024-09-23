@@ -278,7 +278,6 @@ body {
                             <option value=10>Nov</option>
                             <option value=11>Dec</option>
                         </select>
-                        <!-- Dropdown to select a specific year -->
                         <select id="year" onchange="jump()"></select>
                     </div>
                 </div>
@@ -320,9 +319,7 @@ function addEvent() {
     }
 }
 
-// Function to delete an event by ID
 function deleteEvent(eventId) {
-    // Find the index of the event with the given ID
     let eventIndex =
         events.findIndex((event) =>
             event.id === eventId);

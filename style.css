@@ -3,7 +3,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
 
 body {
-    background-color: #fff2df;
+    background-size: cover;
+    background-position: center;
     font-family: "Montserrat";
     margin: 0;
     padding: 0;
@@ -11,32 +12,44 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-}
-body.img{
-    width: 80vw;
-    height: 40vh;
+    width: 100vw;
+    color: #fffdff;
 }
 .container {
+    margin-bottom: 198.2px;
     text-align: center;
-    padding: 20px;
+    padding: 0px;
+    border-radius: 0px;
+    box-shadow: 0 8px 32px #f5a359;
+    width: 100vw;
+    height: 80vh;
+    background-color: #fff2df;
 }
-
+img {
+    width: 50vw; 
+    height: 35vh;
+    object-fit: contain;
+    margin-bottom: 40px;
+    animation: fadeInRotate 2s ease-out forwards; 
+    margin-bottom: 5px;
+}
 h1 {
     color: #f5a359;
     font-family: "Comfortaa";
     font-weight: 300;
-    font-size: 100px;
+    font-size: 99px;
     margin: 0;
     animation: fadeInSlideDown 2s ease-out forwards;
+    letter-spacing: 2px;
 }
-
 h2 {
-    color: #f5a359;
+    color: #f2ca74;
     font-family: "Montserrat";
-    font-size: 40px;
+    font-size: 35px;
     font-weight: 200;
     margin-bottom: 50px;
     animation: fadeIn 3s ease-out forwards;
+    letter-spacing: 1px;
 }
 
 .buttons {
@@ -44,7 +57,7 @@ h2 {
 }
 
 .button1 {
-    color: #fff;
+    color: #fffdff;
     font-family: "Comfortaa";
     font-size: 25px;
     font-weight: 400;
@@ -53,13 +66,17 @@ h2 {
     margin: 10px;
     background-color: #f5a359;
     border: none;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 16px #fffdff; 
 }
 
 .button1:hover {
     background-color: #f2ca74;
     transform: scale(1.1);
+    box-shadow: 0 12px 24px #fffdff;
+    transition: all 0.3s ease;
 }
+
 @keyframes fadeInSlideDown {
     0% {
         opacity: 0;
@@ -70,11 +87,36 @@ h2 {
         transform: translateY(0);
     }
 }
+
 @keyframes fadeIn {
     0% {
         opacity: 0;
     }
     100% {
         opacity: 1;
+    }
+}
+
+@keyframes fadeInRotate {
+    0% {
+        opacity: 0;
+        transform: rotate(-360deg);
+    }
+    100% {
+        opacity: 1;
+        transform: rotate(0deg);
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 60px;
+    }
+    h2 {
+        font-size: 30px;
+    }
+    .button1 {
+        font-size: 20px;
+        padding: 10px 20px;
     }
 }
