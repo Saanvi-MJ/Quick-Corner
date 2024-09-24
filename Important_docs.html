@@ -1,12 +1,14 @@
-<html>
-    <head>
-        <title>Important Information Bank</title>
-        <style>
-        @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Important Documents</title>
+    <style>
         body{
             background-color: #f5a359;
-            background-image: linear-gradient(160deg, #f5a359 0%, #fff2df 100%);
-            font-family: "Comfortaa";
+            background-image: linear-gradient(160deg, #f5a359 0%, #f2ca74 100%);
+            font-family:'Roboto', sans-serif;
         }
         main{
             position: relative;
@@ -16,21 +18,24 @@
             top: 5rem;
             left: 50%;
             transform: translate(-50%, 50%);
-            color: #000;
+            color: #fff2df;
             text-align: center;
         }
+
         button, input{
             background-color: inherit;
-            color: #fff;
+            color: #fff2df;
             margin: 0.5em;
-            font-family: "Comfortaa";
+            font-weight: 300;
+            padding: 0.5em;
+            font-family: 'Roboto', sans-serif;
             font-size: 1.5em;
-            border: 1px solid #000;
+            border: 1px solid #fff2df;
             border-radius: 0.2em;
             transition: 0.3s all;
         }
         button:hover, input:hover{
-            background-color: white;
+            background-color: #fff2df;
             color: black;
             cursor: pointer;
         }
@@ -42,19 +47,19 @@
         }
         input:focus{
             outline: 0;
-            background-color: white;
+            background-color: #fff2df;
             color: black;
         }
 
         ul {
             list-style-type: none;
             padding: 0;
-            color: white;
+            color: #fff2df;
             margin-top: 2rem;
         }
 
         li {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: #f5a359;
             padding: 0.5em;
             margin: 0.3em;
             border-radius: 0.2em;
@@ -67,7 +72,7 @@
             margin-left: 10px;
             background-color: transparent;
             color: white;
-            border: 1px solid white;
+            border: 1px solid #fff2df;
             padding: 0.3em 0.5em;
             border-radius: 0.2em;
             font-size: 1em;
@@ -75,22 +80,23 @@
         }
 
         .edit:hover, .delete:hover {
-            background-color: white;
-            color: black;
+            background-color: #fff2df;
+            color: #f5a359;
         }
-        </style>
-    </head>
-    <body>
-        <main>
-            <section>
-                <input id="input" type="text" placeholder="Enter your Data">
-                <button id="button" onclick="submitInput()">Submit</button>
-                <h2 id="output"></h2> 
-                <h3>An Info</h3>
-                <ul id="historyList"></ul>
-            </section>
-        </main>
-        <script>
+    </style>
+</head>
+<body>
+    <main>
+        <section>
+            <input id="input" type="text" placeholder="Type something"/>
+            <button id="button" onclick="submitInput()">Submit</button>
+            <h2 id="output"></h2>
+            <h3>Enter your Data</h3>
+            <ul id="historyList"></ul>
+        </section>
+    </main>
+
+    <script>
         const input = document.getElementById('input');
         const output = document.getElementById('output');
         const historyList = document.getElementById('historyList');
@@ -100,6 +106,63 @@
             const savedHistory = JSON.parse(localStorage.getItem('inputHistory')) || [];
             savedHistory.forEach((item, index) => addToHistory(item, index));
         };
-        </script>
-    </body>
+
+        function submitInput(){
+            const value = input.value;
+            if (value) {
+                if (currentEditIndex !== null) {
+                    updateHistory(value, currentEditIndex);
+                } else {
+                    saveToHistory(value);
+                    addToHistory(value);
+                }
+                input.value = ''; 
+            }
+        }
+
+        function saveToHistory(value) {
+            let history = JSON.parse(localStorage.getItem('inputHistory')) || [];
+            history.push(value);
+            localStorage.setItem('inputHistory', JSON.stringify(history));
+        }
+
+        function updateHistory(value, index) {
+            let history = JSON.parse(localStorage.getItem('inputHistory')) || [];
+            history[index] = value;
+            localStorage.setItem('inputHistory', JSON.stringify(history));
+            historyList.innerHTML = '';
+            history.forEach((item, idx) => addToHistory(item, idx));
+            currentEditIndex = null; 
+        }
+
+        function deleteFromHistory(index) {
+            let history = JSON.parse(localStorage.getItem('inputHistory')) || [];
+            history.splice(index, 1);
+            localStorage.setItem('inputHistory', JSON.stringify(history));
+            historyList.innerHTML = '';
+            history.forEach((item, idx) => addToHistory(item, idx));
+        }
+
+        function addToHistory(value, index) {
+            const li = document.createElement('li');
+            li.innerHTML = `${value} <span>
+                                <button class="edit" onclick="editHistory(${index})">Edit</button>
+                                <button class="delete" onclick="deleteFromHistory(${index})">Delete</button>
+                            </span>`;
+            historyList.appendChild(li);
+        }
+
+        function editHistory(index) {
+            let history = JSON.parse(localStorage.getItem('inputHistory')) || [];
+            input.value = history[index];
+            currentEditIndex = index;
+        }
+        input.addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                document.getElementById("button").click();
+            }
+        });
+    </script>
+</body>
 </html>
