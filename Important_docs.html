@@ -90,5 +90,16 @@
                 <ul id="historyList"></ul>
             </section>
         </main>
+        <script>
+        const input = document.getElementById('input');
+        const output = document.getElementById('output');
+        const historyList = document.getElementById('historyList');
+        let currentEditIndex = null; 
+
+        window.onload = function() {
+            const savedHistory = JSON.parse(localStorage.getItem('inputHistory')) || [];
+            savedHistory.forEach((item, index) => addToHistory(item, index));
+        };
+        </script>
     </body>
 </html>
