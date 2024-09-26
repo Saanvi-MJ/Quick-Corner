@@ -2,8 +2,9 @@
     <head>
         <title>Calendar</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Comfortaa";
     background-color: #fff2df;
     margin: 0;
 }
@@ -284,7 +285,6 @@ body {
             </div>
         </div>
         <script>
-            // Initialize events array and load from localStorage if available
             let events = JSON.parse(localStorage.getItem('events')) || [];
             let eventDateInput = document.getElementById("eventDate");
             let eventTitleInput = document.getElementById("eventTitle");
@@ -293,7 +293,6 @@ body {
             
             let eventIdCounter = events.length ? events[events.length - 1].id + 1 : 1;
             
-            // Add an event and save it to localStorage
             function addEvent() {
                 let date = eventDateInput.value;
                 let title = eventTitleInput.value;
@@ -308,8 +307,7 @@ body {
                         title: title,
                         description: description
                     });
-                    localStorage.setItem('events', JSON.stringify(events)); // Save to localStorage
-            
+                    localStorage.setItem('events', JSON.stringify(events)); 
                     showCalendar(currentMonth, currentYear);
                     eventDateInput.value = "";
                     eventTitleInput.value = "";
@@ -318,7 +316,6 @@ body {
                 }
             }
             
-            // Delete event and update localStorage
             function deleteEvent(eventId) {
                 let eventIndex = events.findIndex((event) => event.id === eventId);
             
@@ -329,8 +326,7 @@ body {
                     displayReminders();
                 }
             }
-            
-            // Display reminders on the side panel
+        
             function displayReminders() {
                 reminderList.innerHTML = "";
                 for (let i = 0; i < events.length; i++) {
@@ -352,8 +348,7 @@ body {
                     }
                 }
             }
-            
-            // Generate year range
+
             function generate_year_range(start, end) {
                 let years = "";
                 for (let year = start; year <= end; year++) {
@@ -406,8 +401,6 @@ body {
                 currentMonth = parseInt(selectMonth.value);
                 showCalendar(currentMonth, currentYear);
             }
-            
-            // Display the calendar with events
             function showCalendar(month, year) {
                 let firstDay = new Date(year, month, 1).getDay();
                 tbl = document.getElementById("calendar-body");
@@ -455,7 +448,6 @@ body {
                 displayReminders();
             }
             
-            // Create tooltips for events
             function createEventTooltip(date, month, year) {
                 let tooltip = document.createElement("div");
                 tooltip.className = "event-tooltip";
