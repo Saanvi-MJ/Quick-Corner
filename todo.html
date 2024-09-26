@@ -7,12 +7,12 @@
 body {
   margin: 0;
   min-width: 250px;
+  background-color: #fff2df;
 }
 
 * {
   box-sizing: border-box;
 }
-
 ul {
   margin: 0;
   padding: 0;
@@ -124,47 +124,48 @@ input {
 </ul>
 
 <script>
-
-var myNodelist = document.getElementsByTagName("LI");
-var i;
-for (i = 0; i < myNodelist.length; i++) {
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  myNodelist[i].appendChild(span);
-}
-
-
-var close = document.getElementsByClassName("close");
-var i;
-for (i = 0; i < close.length; i++) {
-  close[i].onclick = function() {
-    var div = this.parentElement;
-    div.style.display = "none";
+document.addEventListener("DOMContentLoaded", function() {
+  var storedTasks = JSON.parse(localStorage.getItem("tasks"));
+  if (storedTasks) {
+    storedTasks.forEach(function(task) {
+      addTaskToList(task.text, task.checked);
+    });
   }
-}
+});
 
-
-var list = document.querySelector('ul');
-list.addEventListener('click', function(ev) {
-  if (ev.target.tagName === 'LI') {
-    ev.target.classList.toggle('checked');
+function saveTasks() {
+  var tasks = [];
+  var listItems = document.getElementsByTagName("li");
+  for (var i = 0; i < listItems.length; i++) {
+    tasks.push({
+      text: listItems[i].textContent.replace('\u00D7', ''),  
+      checked: listItems[i].classList.contains('checked')
+    });
   }
-}, false);
-
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
 
 function newElement() {
-  var li = document.createElement("li");
   var inputValue = document.getElementById("myInput").value;
-  var t = document.createTextNode(inputValue);
-  li.appendChild(t);
   if (inputValue === '') {
     alert("You must write something!");
   } else {
-    document.getElementById("myUL").appendChild(li);
+    addTaskToList(inputValue, false);
+    saveTasks(); 
   }
   document.getElementById("myInput").value = "";
+}
+
+function addTaskToList(text, isChecked) {
+  var li = document.createElement("li");
+  var t = document.createTextNode(text);
+  li.appendChild(t);
+  
+  if (isChecked) {
+    li.classList.add("checked");
+  }
+
+  document.getElementById("myUL").appendChild(li);
 
   var span = document.createElement("SPAN");
   var txt = document.createTextNode("\u00D7");
@@ -172,12 +173,16 @@ function newElement() {
   span.appendChild(txt);
   li.appendChild(span);
 
-  for (i = 0; i < close.length; i++) {
-    close[i].onclick = function() {
-      var div = this.parentElement;
-      div.style.display = "none";
-    }
-  }
+  span.onclick = function() {
+    var div = this.parentElement;
+    div.remove(); 
+    saveTasks(); 
+  };
+
+  li.onclick = function() {
+    li.classList.toggle("checked");
+    saveTasks(); 
+  };
 }
 </script>
 
